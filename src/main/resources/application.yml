@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: <YOUR_APPLICATION_NAME>
+  datasource:
+    url: <YOUR_DB_URL>
+    username: <YOUR_DB_USERNAME>
+    password: <YOUR_DB_USER_PASSWORD>
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
