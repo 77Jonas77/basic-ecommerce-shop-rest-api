@@ -6,7 +6,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public class UserRepositoryImpl implements UserRepository {
+public class UserRepositoryImpl implements IUserRepository {
 
     private final JpaUserRepository jpaUserRepository;
 
@@ -40,5 +40,10 @@ public class UserRepositoryImpl implements UserRepository {
                         userEntity.getLastName(),
                         userEntity.getEmail()
                 ));
+    }
+
+    @Override
+    public Optional<UserEntity> findByEmail(String email) {
+        return jpaUserRepository.findByEmail(email);
     }
 }

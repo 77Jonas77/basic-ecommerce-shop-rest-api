@@ -18,9 +18,9 @@ import java.util.UUID;
 @RequestMapping("/v1/users")
 public class UserController {
 
-    private final UserService userService;
+    private final IUserService userService;
 
-    public UserController(UserService userService) {
+    public UserController(IUserService userService) {
         this.userService = userService;
     }
 

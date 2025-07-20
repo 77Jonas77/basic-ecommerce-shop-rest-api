@@ -3,10 +3,18 @@ package dev.jsojka.basic_ecommerce_shop.users;
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.management.relation.Role;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-public class User {
+public class User implements UserDetails {
 
     @NotNull
     private UUID id;
@@ -27,6 +35,8 @@ public class User {
     @Size(min = 7, max = 100)
     private String password;
 
+    private List<GrantedAuthority> authorities;
+
     public User(UUID id, String name, String lastName, String email, String password) {
         this.id = id;
         this.name = name;
@@ -41,6 +51,16 @@ public class User {
         this.lastName = lastName;
         this.email = email;
     }
+
+    public User(UserEntity userEntity){
+        this.id = userEntity.getId();
+        this.name = userEntity.getName();
+        this.lastName = userEntity.getLastName();
+        this.email = userEntity.getEmail();
+        this.password = userEntity.getPassword();
+        this.authorities = List.copyOf(userEntity.getAuthorities());
+    }
+
 
     public UUID getId() {
         return id;
@@ -74,8 +94,18 @@ public class User {
         this.email = email;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authorities;
+    }
+
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
     }
 
     public void setPassword(String password) {
