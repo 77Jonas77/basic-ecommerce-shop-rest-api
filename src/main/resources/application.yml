@@ -11,6 +11,23 @@ spring:
       ddl-auto: create
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+        dialect: org.hibernate.dialect.PostgreSQLDialect # Might not be necessary
 
+server:
+  servlet:
+    session:
+      timeout: 30m # Adjust to your preferences, lower for testing
+      cookie:
+        http-only: true
+#        secure: true
 
+logging:
+  level:
+    org.springframework.security: trace
+    .org:
+      springframework:
+        security:
+          web:
+            context:
+              HttpSessionSecurityContextRepository: TRACE
+        session: DEBUG
