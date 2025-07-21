@@ -37,12 +37,13 @@ public class User implements UserDetails {
 
     private List<GrantedAuthority> authorities;
 
-    public User(UUID id, String name, String lastName, String email, String password) {
+    public User(UUID id, String name, String lastName, String email, String password, List<GrantedAuthority> authorities) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.authorities = authorities;
     }
 
     public User(UUID id, String name, String lastName, String email) {

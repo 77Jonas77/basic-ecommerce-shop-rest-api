@@ -17,5 +17,6 @@ public interface IAuthService {
 //
 //    User updateUser(UUID userId);
 
-    void login(UserDetails userDetails, @Valid LoginRequestDTO loginRequest, HttpServletRequest request) throws InvalidPasswordException;
+    void login(UserDetails userDetails, @Valid LoginRequestDTO loginRequest, HttpServletRequest request)
+            throws InvalidPasswordException;
 }

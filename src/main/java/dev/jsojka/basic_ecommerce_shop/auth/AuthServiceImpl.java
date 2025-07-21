@@ -22,25 +22,24 @@ import java.util.UUID;
 @Service
 public class AuthServiceImpl implements IAuthService {
 
-    private final IAuthRepository authRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
-    public AuthServiceImpl(IAuthRepository authRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
-        this.authRepository = authRepository;
+    public AuthServiceImpl(IAuthRepository authRepository, PasswordEncoder passwordEncoder,
+                           AuthenticationManager authenticationManager) {
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
     }
 
     @Override
-    public void login(UserDetails userDetails, LoginRequestDTO loginRequest, HttpServletRequest request) throws InvalidPasswordException {
+    public void login(UserDetails userDetails, LoginRequestDTO loginRequest, HttpServletRequest request)
+            throws InvalidPasswordException {
         if (!passwordEncoder.matches(loginRequest.password(), userDetails.getPassword())) {
             throw new InvalidPasswordException("Provided invalid password.");
         }
 
         UsernamePasswordAuthenticationToken token =
-                new UsernamePasswordAuthenticationToken(loginRequest.email(),loginRequest.password());
-
+                new UsernamePasswordAuthenticationToken(loginRequest.email(), loginRequest.password());
         Authentication authentication = authenticationManager.authenticate(token);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
