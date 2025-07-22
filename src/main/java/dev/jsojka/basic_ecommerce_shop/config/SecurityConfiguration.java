@@ -4,13 +4,12 @@ import dev.jsojka.basic_ecommerce_shop.auth.UserDetailsServiceImpl;
 import dev.jsojka.basic_ecommerce_shop.logging.SessionDebugFilter;
 import dev.jsojka.basic_ecommerce_shop.users.IUserRepository;
 import dev.jsojka.basic_ecommerce_shop.users.IUserService;
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.ServletException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -22,7 +21,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
-import org.springframework.web.WebApplicationInitializer;
 
 @Configuration
 @EnableWebSecurity
@@ -40,9 +38,20 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> {
                     auth
-                            .requestMatchers("/v1/auth/login", "/v1/users/register").permitAll()
+                            .requestMatchers("/v1/auth/login", "/v1/users/register",
+                                    "/v1/auth/logout", "/v1/auth/success-logout-url")
+                            .permitAll()
                             .anyRequest().authenticated();
                 })
+                .logout(
+                        logoutConfig ->
+                                logoutConfig
+                                        .logoutUrl("/v1/auth/logout")
+                                        .logoutSuccessUrl("/v1/auth/success-logout-url")
+                                        .invalidateHttpSession(true)
+                                        .deleteCookies("JSESSIONID")
+                                        .clearAuthentication(true)
+                )
                 .build();
     }
 
