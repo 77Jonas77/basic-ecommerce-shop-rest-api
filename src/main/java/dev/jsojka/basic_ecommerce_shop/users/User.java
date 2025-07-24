@@ -1,18 +1,12 @@
 package dev.jsojka.basic_ecommerce_shop.users;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
 import jakarta.validation.constraints.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.management.relation.Role;
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class User implements UserDetails {
 
@@ -35,22 +29,24 @@ public class User implements UserDetails {
     @Size(min = 7, max = 100)
     private String password;
 
-    private List<GrantedAuthority> authorities;
+    @NotNull
+    private Role role;
 
-    public User(UUID id, String name, String lastName, String email, String password, List<GrantedAuthority> authorities) {
+    public User(UUID id, String name, String lastName, String email, String password, Role role) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.authorities = authorities;
+        this.role = role;
     }
 
-    public User(UUID id, String name, String lastName, String email) {
+    public User(UUID id, String name, String lastName, String email, Role role) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
         this.email = email;
+        this.role = role;
     }
 
     public User(UserEntity userEntity){
@@ -59,9 +55,8 @@ public class User implements UserDetails {
         this.lastName = userEntity.getLastName();
         this.email = userEntity.getEmail();
         this.password = userEntity.getPassword();
-        this.authorities = List.copyOf(userEntity.getAuthorities());
+        this.role = userEntity.getRole();
     }
-
 
     public UUID getId() {
         return id;
@@ -97,7 +92,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
+        return role.getAuthorities();
     }
 
     public String getPassword() {
@@ -111,5 +106,9 @@ public class User implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
     }
 }
