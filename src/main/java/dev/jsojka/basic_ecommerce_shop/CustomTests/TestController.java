@@ -17,13 +17,13 @@ public class TestController {
     }
 
     @GetMapping("/buyer")
-    @PreAuthorize("hasRole('ROLE_BUYER')")
+    @PreAuthorize("hasAuthority('ROLE_BUYER')")
     public ResponseEntity<String> buyerEndpoint() {
         return ResponseEntity.ok("Hello buyer!");
     }
 
     @GetMapping("/seller")
-    @PreAuthorize("hasRole('ROLE_SELLER')")
+    @PreAuthorize("hasAuthority('ROLE_SELLER')")
     public ResponseEntity<String> sellerEndpoint() {
         return ResponseEntity.ok("Hello seller!");
     }
