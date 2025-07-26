@@ -26,7 +26,8 @@ public class UserRepositoryImpl implements IUserRepository {
                 user.getName(),
                 user.getLastName(),
                 user.getEmail(),
-                user.getPassword()
+                user.getPassword(),
+                user.getRole()
         );
         jpaUserRepository.save(userEntity);
     }
@@ -38,7 +39,8 @@ public class UserRepositoryImpl implements IUserRepository {
                         userEntity.getId(),
                         userEntity.getName(),
                         userEntity.getLastName(),
-                        userEntity.getEmail()
+                        userEntity.getEmail(),
+                        userEntity.getRole()
                 ));
     }
 

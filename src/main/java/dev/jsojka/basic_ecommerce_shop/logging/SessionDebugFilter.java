@@ -39,8 +39,8 @@ public class SessionDebugFilter extends OncePerRequestFilter {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
             System.out.println("🟢 Authenticated: " + auth.isAuthenticated());
-            System.out.println("🟢 Principal: " + auth.getPrincipal());
-            System.out.println("🟢 Authorities: " + auth.getAuthorities());
+//            System.out.println("🟢 Principal: " + auth.getPrincipal());
+//            System.out.println("🟢 Authorities: " + auth.getAuthorities());
         } else {
             System.out.println("🔴 No authentication found in context.");
         }

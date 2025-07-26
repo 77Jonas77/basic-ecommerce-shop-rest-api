@@ -1,6 +1,6 @@
 package dev.jsojka.basic_ecommerce_shop.config;
 
-import dev.jsojka.basic_ecommerce_shop.auth.UserDetailsServiceImpl;
+import dev.jsojka.basic_ecommerce_shop.users.UserDetailsServiceImpl;
 import dev.jsojka.basic_ecommerce_shop.logging.SessionDebugFilter;
 import dev.jsojka.basic_ecommerce_shop.users.IUserRepository;
 import dev.jsojka.basic_ecommerce_shop.users.IUserService;
@@ -9,10 +9,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,6 +26,7 @@ import org.springframework.security.web.context.SecurityContextRepository;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfiguration {
 
     @Bean
@@ -35,6 +38,9 @@ public class SecurityConfiguration {
                         .maximumSessions(1)
                         .expiredUrl("/sessionExpired")
                 )
+                .securityContext(securityContext -> securityContext
+                        .securityContextRepository(new HttpSessionSecurityContextRepository())
+                )
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> {
                     auth
@@ -43,6 +49,7 @@ public class SecurityConfiguration {
                             .permitAll()
                             .anyRequest().authenticated();
                 })
+                .formLogin(AbstractHttpConfigurer::disable)
                 .logout(
                         logoutConfig ->
                                 logoutConfig
@@ -69,9 +76,8 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public UserDetailsService userDetailsService(IUserService userService,
-                                                 IUserRepository userRepository) {
-        return new UserDetailsServiceImpl(userService, userRepository);
+    public UserDetailsService userDetailsService(IUserRepository userRepository) {
+        return new UserDetailsServiceImpl(userRepository);
     }
 
     @Bean

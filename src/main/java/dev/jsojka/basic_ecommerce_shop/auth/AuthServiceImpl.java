@@ -39,7 +39,7 @@ public class AuthServiceImpl implements IAuthService {
         }
         // Create user Authentication
         UsernamePasswordAuthenticationToken token =
-                new UsernamePasswordAuthenticationToken(loginRequest.email(), loginRequest.password());
+                new UsernamePasswordAuthenticationToken(userDetails, loginRequest.password(), userDetails.getAuthorities());
         Authentication authentication = authenticationManager.authenticate(token);
 
         // Provide Authentication to SecurityContext

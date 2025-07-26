@@ -2,16 +2,14 @@ package dev.jsojka.basic_ecommerce_shop.users;
 
 
 import jakarta.persistence.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 
-import java.util.Collection;
-import java.util.Set;
 import java.util.UUID;
 
 @Entity
 @Table(name = "users")
-public class UserEntity implements UserDetails {
+public class UserEntity {
 
     @Id
     @Column(name = "user_id", nullable = false)
@@ -29,15 +27,18 @@ public class UserEntity implements UserDetails {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<RoleEntity> roles;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    @JdbcType(PostgreSQLEnumJdbcType.class)
+    private Role role;
 
-    public UserEntity(UUID id, String name, String lastName, String email, String password) {
+    public UserEntity(UUID id, String name, String lastName, String email, String password, Role role) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.role = role;
     }
 
     protected UserEntity() {
@@ -75,21 +76,19 @@ public class UserEntity implements UserDetails {
         this.email = email;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roles;
-    }
-
     public String getPassword() {
         return password;
     }
 
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

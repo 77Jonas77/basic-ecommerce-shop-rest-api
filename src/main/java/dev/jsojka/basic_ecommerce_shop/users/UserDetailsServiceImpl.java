@@ -1,9 +1,5 @@
-package dev.jsojka.basic_ecommerce_shop.auth;
+package dev.jsojka.basic_ecommerce_shop.users;
 
-import dev.jsojka.basic_ecommerce_shop.users.IUserRepository;
-import dev.jsojka.basic_ecommerce_shop.users.IUserService;
-import dev.jsojka.basic_ecommerce_shop.users.User;
-import dev.jsojka.basic_ecommerce_shop.users.UserEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
@@ -13,7 +9,7 @@ public class UserDetailsServiceImpl implements org.springframework.security.core
 
     private final IUserRepository userRepository;
 
-    public UserDetailsServiceImpl(IUserService userService, IUserRepository userRepository) {
+    public UserDetailsServiceImpl(IUserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
