@@ -1,10 +1,9 @@
 package dev.jsojka.basic_ecommerce_shop.users;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 
 import java.util.UUID;
 
@@ -28,12 +27,18 @@ public class UserEntity {
     @Column(name = "password", nullable = false)
     private String password;
 
-    public UserEntity(UUID id, String name, String lastName, String email, String password) {
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    @JdbcType(PostgreSQLEnumJdbcType.class)
+    private Role role;
+
+    public UserEntity(UUID id, String name, String lastName, String email, String password, Role role) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.role = role;
     }
 
     protected UserEntity() {
@@ -77,5 +82,13 @@ public class UserEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

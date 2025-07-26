@@ -8,12 +8,12 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements IUserService {
 
-    private final UserRepository userRepository;
+    private final IUserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(IUserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -33,7 +33,8 @@ public class UserServiceImpl implements UserService {
                 request.name(),
                 request.lastName(),
                 request.email(),
-                passwordEncoder.encode(request.password())
+                passwordEncoder.encode(request.password()),
+                Role.BUYER
         );
 
         // Save user to db

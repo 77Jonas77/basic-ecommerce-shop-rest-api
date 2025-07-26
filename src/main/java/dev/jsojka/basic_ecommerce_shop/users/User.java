@@ -1,12 +1,14 @@
 package dev.jsojka.basic_ecommerce_shop.users;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
 import jakarta.validation.constraints.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
+import java.util.Set;
 import java.util.UUID;
 
-public class User {
+public class User implements UserDetails {
 
     @NotNull
     private UUID id;
@@ -27,19 +29,33 @@ public class User {
     @Size(min = 7, max = 100)
     private String password;
 
-    public User(UUID id, String name, String lastName, String email, String password) {
+    @NotNull
+    private Role role;
+
+    public User(UUID id, String name, String lastName, String email, String password, Role role) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.role = role;
     }
 
-    public User(UUID id, String name, String lastName, String email) {
+    public User(UUID id, String name, String lastName, String email, Role role) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
         this.email = email;
+        this.role = role;
+    }
+
+    public User(UserEntity userEntity){
+        this.id = userEntity.getId();
+        this.name = userEntity.getName();
+        this.lastName = userEntity.getLastName();
+        this.email = userEntity.getEmail();
+        this.password = userEntity.getPassword();
+        this.role = userEntity.getRole();
     }
 
     public UUID getId() {
@@ -74,11 +90,25 @@ public class User {
         this.email = email;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return role.getAuthorities();
+    }
+
     public String getPassword() {
         return password;
     }
 
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
     }
 }
