@@ -35,7 +35,7 @@ public class UserEntity {
     @JdbcType(PostgreSQLEnumJdbcType.class)
     private Role role;
 
-    @OneToMany(mappedBy = "seller")
+    @OneToMany(mappedBy = "seller", fetch = FetchType.LAZY)
     private List<ProductEntity> products = new ArrayList<>();
 
     public UserEntity(UUID id, String name, String lastName, String email, String password, Role role) {
