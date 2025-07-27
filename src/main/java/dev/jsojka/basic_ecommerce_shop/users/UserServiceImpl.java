@@ -48,17 +48,11 @@ public class UserServiceImpl implements IUserService {
         User user = userRepository.findUserById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User with id " + userId + " not found"));
 
-        // Return response depending on value returned to userOptional
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            return new GetUserResponse(user.getName(), user.getLastName(), user.getId(), user.getEmail());
-        } else {
-            throw new UserNotFoundException("User with id: " + userId + " not found!");
-        }
         return new GetUserResponse(user.getName(), user.getLastName(), user.getId(), user.getEmail());
     }
 
     @Override
+    @Transactional
     public UserRolesResponse updateUserRole(UserRolesRequest request, UUID userId) {
 
         // Call for user
