@@ -48,4 +48,9 @@ public class UserRepositoryImpl implements IUserRepository {
     public Optional<UserEntity> findByEmail(String email) {
         return jpaUserRepository.findByEmail(email);
     }
+
+    @Override
+    public void updateRoleById(UUID userId, Role role) {
+        jpaUserRepository.updateRoleById(userId, role);
+    }
 }

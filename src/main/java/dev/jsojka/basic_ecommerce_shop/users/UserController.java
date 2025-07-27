@@ -64,8 +64,8 @@ public class UserController {
     // Surely that is not the best impl :)
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PatchMapping("/{userId}/role")
-    public ResponseEntity<UserRolesResponse> updateUserRole(@RequestBody @Valid UserRolesRequest request, @PathVariable UUID userId) {
-        UserRolesResponse response = userService.updateUserRole(request, userId);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    public ResponseEntity<UserRoleResponse> updateUserRole(@RequestBody @Valid UserRoleRequest request, @PathVariable UUID userId) {
+        UserRoleResponse response = userService.updateUserRole(request, userId);
+        return ResponseEntity.status(HttpStatus.OK).body(response); // or return 200 "redirect:/logout"
     }
 }

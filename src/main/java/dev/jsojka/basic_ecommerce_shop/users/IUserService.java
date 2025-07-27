@@ -9,5 +9,5 @@ public interface IUserService {
 
     GetUserResponse findUserById(UUID userId);
 
-    UserRolesResponse updateUserRole(@Valid UserRolesRequest request, UUID userId);
+    UserRoleResponse updateUserRole(@Valid UserRoleRequest request, UUID userId);
 }
