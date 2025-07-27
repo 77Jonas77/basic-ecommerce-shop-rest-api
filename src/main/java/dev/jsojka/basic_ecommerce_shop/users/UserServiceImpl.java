@@ -4,7 +4,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -43,17 +42,31 @@ public class UserServiceImpl implements IUserService {
         return new RegisterUserResponse(userId);
     }
 
-
     public GetUserResponse findUserById(UUID userId) {
         // Call for user with provided ID
-        Optional<User> userOptional = userRepository.findUserById(userId);
+        User user = userRepository.findUserById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User with id " + userId + " not found"));
 
-        // Return response depending on value returned to userOptional
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            return new GetUserResponse(user.getName(), user.getLastName(), user.getId(), user.getEmail());
-        } else {
-            throw new UserNotFoundException("User with id: " + userId + " not found!");
+        return new GetUserResponse(user.getName(), user.getLastName(), user.getId(), user.getEmail());
+    }
+
+    @Override
+    @Transactional
+    public UserRoleResponse updateUserRole(UserRoleRequest request, UUID userId) {
+
+        // Call for user
+        User user = userRepository.findUserById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User with id " + userId + " not found"));
+
+        // Check if already has provided role
+        if (user.getRole().equals(request.role())) {
+            return new UserRoleResponse(user.getRole());
         }
+
+        // If user was found then update his role
+        user.setRole(request.role());
+        userRepository.updateRoleById(user.getId(), request.role());
+
+        return new UserRoleResponse(user.getRole());
     }
 }

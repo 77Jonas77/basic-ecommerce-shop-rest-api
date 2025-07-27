@@ -6,6 +6,8 @@ import dev.jsojka.basic_ecommerce_shop.users.IUserRepository;
 import dev.jsojka.basic_ecommerce_shop.users.IUserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -59,6 +61,14 @@ public class SecurityConfiguration {
                                         .deleteCookies("JSESSIONID")
                                         .clearAuthentication(true)
                 )
+                .build();
+    }
+
+    @Bean
+    static RoleHierarchy roleHierarchy() {
+        return RoleHierarchyImpl.withDefaultRolePrefix()
+                .role("ADMIN").implies("SELLER")
+                .role("SELLER").implies("BUYER")
                 .build();
     }
 

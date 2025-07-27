@@ -12,4 +12,6 @@ public interface IUserRepository {
     Optional<User> findUserById(UUID userId);
 
     Optional<UserEntity> findByEmail(String email);
+
+    void updateRoleById(UUID userId, Role role);
 }

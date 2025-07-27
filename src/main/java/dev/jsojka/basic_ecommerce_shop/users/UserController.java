@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -58,5 +59,13 @@ public class UserController {
     public ResponseEntity<GetUserResponse> registerUser(@PathVariable UUID userId) {
         GetUserResponse response = userService.findUserById(userId);
         return ResponseEntity.ok(response);
+    }
+
+    // Surely that is not the best impl :)
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PatchMapping("/{userId}/role")
+    public ResponseEntity<UserRoleResponse> updateUserRole(@RequestBody @Valid UserRoleRequest request, @PathVariable UUID userId) {
+        UserRoleResponse response = userService.updateUserRole(request, userId);
+        return ResponseEntity.status(HttpStatus.OK).body(response); // or return 200 "redirect:/logout"
     }
 }

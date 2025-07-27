@@ -49,7 +49,7 @@ public class User implements UserDetails {
         this.role = role;
     }
 
-    public User(UserEntity userEntity){
+    public User(UserEntity userEntity) {
         this.id = userEntity.getId();
         this.name = userEntity.getName();
         this.lastName = userEntity.getLastName();
@@ -106,6 +106,10 @@ public class User implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public Role getRole() {
