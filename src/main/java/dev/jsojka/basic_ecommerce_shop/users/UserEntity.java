@@ -1,10 +1,13 @@
 package dev.jsojka.basic_ecommerce_shop.users;
 
 
+import dev.jsojka.basic_ecommerce_shop.products.ProductEntity;
 import jakarta.persistence.*;
 import org.hibernate.annotations.JdbcType;
 import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -31,6 +34,9 @@ public class UserEntity {
     @Column(name = "role", nullable = false)
     @JdbcType(PostgreSQLEnumJdbcType.class)
     private Role role;
+
+    @OneToMany(mappedBy = "seller")
+    private List<ProductEntity> products = new ArrayList<>();
 
     public UserEntity(UUID id, String name, String lastName, String email, String password, Role role) {
         this.id = id;
@@ -91,4 +97,9 @@ public class UserEntity {
     public void setRole(Role role) {
         this.role = role;
     }
+
+    public List<ProductEntity> getProducts() {
+        return products;
+    }
+
 }
