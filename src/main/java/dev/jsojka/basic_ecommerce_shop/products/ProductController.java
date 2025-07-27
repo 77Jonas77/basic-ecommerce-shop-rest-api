@@ -23,7 +23,4 @@ public class ProductController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping
-    public ResponseEntity<CreateProductResponse>
-
 }
