@@ -28,7 +28,6 @@ public class ProductController {
     public ResponseEntity<CreateProductResponse> createProduct(@RequestBody @Valid CreateProductRequest request) {
         CreateProductResponse response = productService.createProduct(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
-
     }
 
 }
