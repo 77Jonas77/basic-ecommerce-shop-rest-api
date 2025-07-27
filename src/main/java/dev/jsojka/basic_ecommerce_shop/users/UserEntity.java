@@ -8,7 +8,7 @@ import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 import java.util.UUID;
 
 @Entity
-@Table(name = "users")
+@Table(name = "user")
 public class UserEntity {
 
     @Id

@@ -37,6 +37,6 @@ public class AuthController {
 
     @GetMapping("/success-logout-url")
     public ResponseEntity<String> successfulLogout(){
-        return ResponseEntity.ok().body("You've been logged out succesfully");
+        return ResponseEntity.ok().body("You've been logged out successfully");
     }
 }
