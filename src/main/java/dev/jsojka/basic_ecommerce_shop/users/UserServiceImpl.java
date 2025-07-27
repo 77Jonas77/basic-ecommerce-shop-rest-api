@@ -43,10 +43,10 @@ public class UserServiceImpl implements IUserService {
         return new RegisterUserResponse(userId);
     }
 
-
     public GetUserResponse findUserById(UUID userId) {
         // Call for user with provided ID
-        Optional<User> userOptional = userRepository.findUserById(userId);
+        User user = userRepository.findUserById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User with id " + userId + " not found"));
 
         // Return response depending on value returned to userOptional
         if (userOptional.isPresent()) {
@@ -55,5 +55,20 @@ public class UserServiceImpl implements IUserService {
         } else {
             throw new UserNotFoundException("User with id: " + userId + " not found!");
         }
+        return new GetUserResponse(user.getName(), user.getLastName(), user.getId(), user.getEmail());
+    }
+
+    @Override
+    public UserRolesResponse updateUserRole(UserRolesRequest request, UUID userId) {
+
+        // Call for user
+        User user = userRepository.findUserById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User with id " + userId + " not found"));
+
+        // If user was found then update his role
+        user.setRole(request.role());
+        userRepository.save(user);
+
+        return new UserRolesResponse(user.getRole());
     }
 }
