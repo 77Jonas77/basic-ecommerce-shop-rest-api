@@ -1,6 +1,8 @@
 package dev.jsojka.basic_ecommerce_shop.products;
 
 import dev.jsojka.basic_ecommerce_shop.users.User;
+import dev.jsojka.basic_ecommerce_shop.users.UserEntity;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
@@ -78,6 +80,30 @@ public class Product {
         this.publishedStatus = publishedStatus;
         this.soldNumber = soldNumber;
     }
+
+    public Product(UUID id, String name, BigDecimal price, String description, String brandName, int availableQuantityLeft,
+                   ProductCategory productCategory, UserEntity seller, LocalDateTime publishedAtDate,
+                   LocalDateTime withdrewAtDate, boolean publishedStatus, int soldNumber) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.brandName = brandName;
+        this.availableQuantityLeft = availableQuantityLeft;
+        this.productCategory = productCategory;
+        this.seller = new User(
+                seller.getId(),
+                seller.getName(),
+                seller.getLastName(),
+                seller.getEmail(),
+                seller.getRole()
+        );
+        this.publishedAtDate = publishedAtDate;
+        this.withdrewAtDate = withdrewAtDate;
+        this.publishedStatus = publishedStatus;
+        this.soldNumber = soldNumber;
+    }
+
 
     public UUID getId() {
         return id;

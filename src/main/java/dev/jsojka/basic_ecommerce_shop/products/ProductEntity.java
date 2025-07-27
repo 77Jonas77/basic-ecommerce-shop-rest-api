@@ -56,7 +56,8 @@ public class ProductEntity {
     }
 
     public ProductEntity(UUID id, String name, BigDecimal price, String description, String brandName,
-                         int availableQuantityLeft, ProductCategory productCategory, UserEntity seller) {
+                         int availableQuantityLeft, ProductCategory productCategory, UserEntity seller,
+                         LocalDateTime publishedAtDate, int soldNumber, boolean publishedStatus) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -65,8 +66,9 @@ public class ProductEntity {
         this.availableQuantityLeft = availableQuantityLeft;
         this.productCategory = productCategory;
         this.seller = seller;
-        this.publishedStatus = false;
-        this.soldNumber = 0;
+        this.publishedAtDate = publishedAtDate;
+        this.soldNumber = soldNumber;
+        this.publishedStatus = publishedStatus;
     }
 
     public UUID getId() {

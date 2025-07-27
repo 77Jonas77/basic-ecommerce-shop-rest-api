@@ -4,4 +4,6 @@ import java.util.List;
 
 public interface IProductRepository {
     List<Product> getAllProducts();
+
+    Product save(Product product);
 }
