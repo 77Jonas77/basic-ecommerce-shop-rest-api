@@ -3,11 +3,12 @@ package dev.jsojka.basic_ecommerce_shop.products;
 import dev.jsojka.basic_ecommerce_shop.users.JpaUserRepository;
 import dev.jsojka.basic_ecommerce_shop.users.User;
 import dev.jsojka.basic_ecommerce_shop.users.UserEntity;
-import org.springframework.security.core.parameters.P;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
 @Repository
 public class ProductRepositoryImpl implements IProductRepository {
@@ -23,21 +24,9 @@ public class ProductRepositoryImpl implements IProductRepository {
     public List<Product> getAllProducts() {
         List<ProductEntity> productEntityList = jpaProductRepository.findAll();
         return productEntityList.stream()
-                .map(p -> new Product(
-                                p.getId(),
-                                p.getName(),
-                                p.getPrice(),
-                                p.getDescription(),
-                                p.getBrandName(),
-                                p.getAvailableQuantityLeft(),
-                                p.getProductCategory(),
-                                new User(p.getSeller()),
-                                p.getPublishedAtDate(),
-                                p.getWithdrewAtDate(),
-                                p.isPublishedStatus(),
-                                p.getSoldNumber()
-                        )
-                ).toList();
+                .map(entity -> ProductMapper.toDomain(entity))
+                .toList();
+
     }
 
     @Override
@@ -45,34 +34,27 @@ public class ProductRepositoryImpl implements IProductRepository {
         UserEntity user = jpaUserRepository.findById(product.getSeller().getId()).orElseThrow();
 
         ProductEntity productEntity = jpaProductRepository.save(
-                new ProductEntity(
-                        product.getId(),
-                        product.getName(),
-                        product.getPrice(),
-                        product.getDescription(),
-                        product.getBrandName(),
-                        product.getAvailableQuantityLeft(),
-                        product.getProductCategory(),
-                        user,
-                        product.getPublishedAtDate(),
-                        product.getSoldNumber(),
-                        product.isPublishedStatus()
-                )
+                ProductMapper.toEntity(product, user)
         );
-        // should add mapper or smth
-        return new Product(
-                productEntity.getId(),
-                productEntity.getName(),
-                productEntity.getPrice(),
-                productEntity.getDescription(),
-                productEntity.getBrandName(),
-                productEntity.getAvailableQuantityLeft(),
-                productEntity.getProductCategory(),
-                user,
-                productEntity.getPublishedAtDate(),
-                productEntity.getWithdrewAtDate(),
-                productEntity.isPublishedStatus(),
-                productEntity.getSoldNumber()
-        );
+        return ProductMapper.toDomain(productEntity);
     }
+
+    @Override
+    public void deleteById(UUID productId) {
+        jpaProductRepository.deleteById(productId);
+    }
+
+    @Override
+    public Page<Product> findAll(Pageable pagingSort) {
+        return jpaProductRepository.findAll(pagingSort)
+                .map(entity -> ProductMapper.toDomain(entity));
+    }
+
+    @Override
+    public Page<Product> findAllByPublishedStatus(Pageable pagingSort, Boolean publishedStatus) {
+        return jpaProductRepository.findByPublishedStatus(publishedStatus, pagingSort)
+                .map(entity -> ProductMapper.toDomain(entity));
+    }
+
+
 }

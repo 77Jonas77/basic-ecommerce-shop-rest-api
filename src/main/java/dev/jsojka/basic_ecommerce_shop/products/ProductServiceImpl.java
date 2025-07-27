@@ -3,11 +3,17 @@ package dev.jsojka.basic_ecommerce_shop.products;
 import dev.jsojka.basic_ecommerce_shop.users.IUserRepository;
 import dev.jsojka.basic_ecommerce_shop.users.User;
 import dev.jsojka.basic_ecommerce_shop.users.UserNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -70,4 +76,54 @@ public class ProductServiceImpl implements IProductService {
                 product.getSoldNumber()
         );
     }
+
+    @Override
+    public void deleteById(UUID productId) {
+        productRepository.deleteById(productId);
+    }
+
+    @Override
+    public GetAllProductsCustomedResponse getAllProductsSorted(int page, int size, String sort) {
+        // Create Order object to sort products
+        Sort.Order order = getOrder(sort);
+
+        // Send query to db providing Pageable object
+        Pageable pagingSort = PageRequest.of(page, size, Sort.by(order));
+        Page<Product> productsPage = productRepository.findAll(pagingSort);
+
+        // Base on response from db return correct response to controller
+        return getGetAllProductsCustomedResponse(productsPage);
+    }
+
+    @Override
+    public GetAllProductsCustomedResponse getAllProductsByPublishedStatusAndSorted(int page, int size, Boolean publishedStatus, String sort) {
+        // Create Order object to sort products
+        Sort.Order order = getOrder(sort);
+
+        // Send query to db providing Pageable object
+        Pageable pagingSort = PageRequest.of(page, size, Sort.by(order));
+        Page<Product> productsPage = productRepository.findAllByPublishedStatus(pagingSort, publishedStatus);
+
+        return getGetAllProductsCustomedResponse(productsPage);
+    }
+
+    private GetAllProductsCustomedResponse getGetAllProductsCustomedResponse(Page<Product> productsPage) {
+        if (!productsPage.getContent().isEmpty()) {
+            Map<String, Object> response = new HashMap<>();
+            response.put("products", productsPage.getContent());
+            response.put("currentPage", productsPage.getNumber());
+            response.put("totalItems", productsPage.getTotalElements());
+            response.put("totalPages", productsPage.getTotalPages());
+            return new GetAllProductsCustomedResponse(response);
+        }
+        return null;
+    }
+
+    private static Sort.Order getOrder(String sort) {
+        // sortOrder = "field, direction"
+        String[] sortOrder = sort.split(",");
+        return new Sort.Order(Sort.Direction.valueOf(sortOrder[1].toUpperCase()), sortOrder[0]);
+    }
+
+
 }

@@ -41,3 +41,4 @@ DROP TABLE user_details."user";
 
 DROP SCHEMA user_details;
 DROP SCHEMA product_schema;
+
