@@ -55,4 +55,11 @@ public class ProductController {
         productService.deleteById(productId);
         return ResponseEntity.noContent().build();
     }
+
+    @PreAuthorize("hasAuthority('ROLE_SELLER')")
+    @PatchMapping("/{productId}")
+    public ResponseEntity<PatchProductResponse> patchProduct(@RequestBody @Valid PatchProductRequest request, @PathVariable UUID productId){
+        PatchProductResponse response = productService.patchProduct(request, productId);
+        return ResponseEntity.ok(response);
+    }
 }

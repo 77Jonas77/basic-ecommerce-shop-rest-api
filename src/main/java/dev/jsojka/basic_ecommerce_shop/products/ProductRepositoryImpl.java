@@ -8,10 +8,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
 public class ProductRepositoryImpl implements IProductRepository {
+
     private final JpaProductRepository jpaProductRepository;
     private final JpaUserRepository jpaUserRepository;
 
@@ -54,6 +56,13 @@ public class ProductRepositoryImpl implements IProductRepository {
     public Page<Product> findAllByPublishedStatus(Pageable pagingSort, Boolean publishedStatus) {
         return jpaProductRepository.findByPublishedStatus(publishedStatus, pagingSort)
                 .map(entity -> ProductMapper.toDomain(entity));
+    }
+
+    @Override
+    public Optional<Product> findById(UUID productId) {
+        return jpaProductRepository.findById(productId)
+                .map(productEntity -> ProductMapper.toDomain(productEntity));
+
     }
 
 

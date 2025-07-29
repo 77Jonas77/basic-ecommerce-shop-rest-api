@@ -1,5 +1,7 @@
 package dev.jsojka.basic_ecommerce_shop.products;
 
+import jakarta.validation.Valid;
+
 import java.util.UUID;
 
 public interface IProductService {
@@ -13,4 +15,6 @@ public interface IProductService {
 
     GetAllProductsCustomedResponse getAllProductsByPublishedStatusAndSorted(int page, int size,
                                                                             Boolean publishedStatus, String sort);
+
+    PatchProductResponse patchProduct(@Valid PatchProductRequest request, UUID productId);
 }

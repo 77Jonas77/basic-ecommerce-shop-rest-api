@@ -32,8 +32,9 @@ public class ProductMapper {
                 product.getProductCategory(),
                 userEntity,
                 product.getPublishedAtDate(),
-                product.getSoldNumber(),
-                product.isPublishedStatus()
+                product.getWithdrewAtDate(),
+                product.isPublishedStatus(),
+                product.getSoldNumber()
         );
     }
 }

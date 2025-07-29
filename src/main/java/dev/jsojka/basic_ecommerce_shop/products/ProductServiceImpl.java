@@ -3,6 +3,7 @@ package dev.jsojka.basic_ecommerce_shop.products;
 import dev.jsojka.basic_ecommerce_shop.users.IUserRepository;
 import dev.jsojka.basic_ecommerce_shop.users.User;
 import dev.jsojka.basic_ecommerce_shop.users.UserNotFoundException;
+import org.apache.coyote.BadRequestException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -11,10 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class ProductServiceImpl implements IProductService {
@@ -107,6 +105,68 @@ public class ProductServiceImpl implements IProductService {
         return getGetAllProductsCustomedResponse(productsPage);
     }
 
+    public PatchProductResponse patchProduct(PatchProductRequest request, UUID productId) {
+        // Find existing product
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ProductNotFoundException("Product with id: " + productId + " not found."));
+
+        // Override/update attributes only if values are not null
+        // todo: need better impl (Reflection?/ MapStruct?/ Lombok?
+        if (request.price() != null) {
+            product.setPrice(request.price());
+        }
+
+        if (request.description() != null) {
+            product.setDescription(request.description());
+        }
+
+        if (request.availableQuantityLeft() != null) {
+            product.setAvailableQuantityLeft(request.availableQuantityLeft());
+        }
+
+        if (request.publishedAtDate() != null) {
+            // might also need validation future or now?
+            product.setPublishedAtDate(request.publishedAtDate());
+        }
+
+        if (request.withdrewAtDate() != null) {
+            // could be for sure in Product class - cause domain logic
+            // todo: move Product/ User related validations to Domain classes
+            if (request.withdrewAtDate().isBefore(product.getPublishedAtDate())) {
+                throw new WithdrewDateInvalidException("WithdrewDate can't be before published date.");
+            }
+            product.setWithdrewAtDate(request.withdrewAtDate());
+            System.out.println(product.getWithdrewAtDate() + " || " + request.withdrewAtDate());
+        }
+
+        if (request.publishedStatus() != null) {
+            product.setPublishedStatus(request.publishedStatus());
+        }
+
+        if (request.soldNumber() != null) {
+            product.setSoldNumber(request.soldNumber());
+        }
+
+        // Save updated product
+        Product savedProduct = productRepository.save(product);
+
+        // Return response
+        return new PatchProductResponse(
+                savedProduct.getId(),
+                savedProduct.getName(),
+                savedProduct.getPrice(),
+                savedProduct.getDescription(),
+                savedProduct.getBrandName(),
+                savedProduct.getAvailableQuantityLeft(),
+                savedProduct.getProductCategory(),
+                savedProduct.getSeller().getId(),
+                savedProduct.getPublishedAtDate(),
+                savedProduct.getWithdrewAtDate(),
+                savedProduct.isPublishedStatus(),
+                savedProduct.getSoldNumber()
+        );
+    }
+
     private GetAllProductsCustomedResponse getGetAllProductsCustomedResponse(Page<Product> productsPage) {
         if (!productsPage.getContent().isEmpty()) {
             Map<String, Object> response = new HashMap<>();
@@ -118,6 +178,7 @@ public class ProductServiceImpl implements IProductService {
         }
         return null;
     }
+
 
     private static Sort.Order getOrder(String sort) {
         // sortOrder = "field, direction"

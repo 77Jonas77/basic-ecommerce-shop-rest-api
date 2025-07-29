@@ -57,7 +57,8 @@ public class ProductEntity {
 
     public ProductEntity(UUID id, String name, BigDecimal price, String description, String brandName,
                          int availableQuantityLeft, ProductCategory productCategory, UserEntity seller,
-                         LocalDateTime publishedAtDate, int soldNumber, boolean publishedStatus) {
+                         LocalDateTime publishedAtDate, LocalDateTime withdrewAtDate,
+                         boolean publishedStatus, int soldNumber) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -67,8 +68,9 @@ public class ProductEntity {
         this.productCategory = productCategory;
         this.seller = seller;
         this.publishedAtDate = publishedAtDate;
-        this.soldNumber = soldNumber;
+        this.withdrewAtDate = withdrewAtDate;
         this.publishedStatus = publishedStatus;
+        this.soldNumber = soldNumber;
     }
 
     public UUID getId() {

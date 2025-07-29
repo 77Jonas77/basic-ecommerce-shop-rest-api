@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface IProductRepository {
@@ -16,4 +17,6 @@ public interface IProductRepository {
     Page<Product> findAll(Pageable pagingSort);
 
     Page<Product> findAllByPublishedStatus(Pageable pagingSort, Boolean publishedStatus);
+
+    Optional<Product> findById(UUID productId);
 }

@@ -1,14 +1,22 @@
 package dev.jsojka.basic_ecommerce_shop.products;
 
-import dev.jsojka.basic_ecommerce_shop.users.User;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
-public record CreateProductRequest(UUID sellerId, String name, BigDecimal price, String description, String brandName,
-                                   int availableQuantityLeft, ProductCategory productCategory,
-                                   @NotNull boolean publishedStatus, int soldNumber
+public record CreateProductRequest(
+        @NotNull UUID sellerId,
+        @NotBlank String name,
+        @NotNull @PositiveOrZero BigDecimal price,
+        @NotBlank @Size(min = 20) String description,
+        @NotBlank String brandName,
+        @PositiveOrZero Integer availableQuantityLeft,
+        @NotNull ProductCategory productCategory,
+        @NotNull Boolean publishedStatus,
+        @PositiveOrZero Integer soldNumber
 ) {
 }
