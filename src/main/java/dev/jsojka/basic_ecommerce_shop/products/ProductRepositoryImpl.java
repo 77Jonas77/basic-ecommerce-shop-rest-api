@@ -1,7 +1,6 @@
 package dev.jsojka.basic_ecommerce_shop.products;
 
 import dev.jsojka.basic_ecommerce_shop.users.JpaUserRepository;
-import dev.jsojka.basic_ecommerce_shop.users.User;
 import dev.jsojka.basic_ecommerce_shop.users.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,10 +15,12 @@ public class ProductRepositoryImpl implements IProductRepository {
 
     private final JpaProductRepository jpaProductRepository;
     private final JpaUserRepository jpaUserRepository;
+    private final IProductFileSystemRepository productFileSystemRepository;
 
-    public ProductRepositoryImpl(JpaProductRepository jpaProductRepository, JpaUserRepository jpaUserRepository) {
+    public ProductRepositoryImpl(JpaProductRepository jpaProductRepository, JpaUserRepository jpaUserRepository, IProductFileSystemRepository productFileSystemRepository) {
         this.jpaProductRepository = jpaProductRepository;
         this.jpaUserRepository = jpaUserRepository;
+        this.productFileSystemRepository = productFileSystemRepository;
     }
 
     @Override
@@ -65,5 +66,13 @@ public class ProductRepositoryImpl implements IProductRepository {
 
     }
 
+    @Override
+    public String getFilenameByProductId(UUID productId) {
+        return "";
+    }
 
+    @Override
+    public void saveFilenameByProductId(UUID productId) {
+
+    }
 }

@@ -8,6 +8,6 @@ public record PatchProductResponse(
         UUID id, String name, BigDecimal price, String description, String brandName,
         int availableQuantityLeft,
         ProductCategory productCategory, UUID sellerId, LocalDateTime publishedAtDate,
-        LocalDateTime withdrewAtDate, boolean publishedStatus, int soldNumber
+        LocalDateTime withdrewAtDate, boolean publishedStatus, int soldNumber, String filename
 ) {
 }

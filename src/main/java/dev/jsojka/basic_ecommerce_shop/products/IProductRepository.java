@@ -19,4 +19,7 @@ public interface IProductRepository {
     Page<Product> findAllByPublishedStatus(Pageable pagingSort, Boolean publishedStatus);
 
     Optional<Product> findById(UUID productId);
+
+    String getFilenameByProductId(UUID productId);
+    void saveFilenameByProductId(UUID productId);
 }

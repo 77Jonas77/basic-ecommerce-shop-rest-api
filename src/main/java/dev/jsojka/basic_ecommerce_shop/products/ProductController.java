@@ -1,10 +1,15 @@
 package dev.jsojka.basic_ecommerce_shop.products;
 
 import jakarta.validation.Valid;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
@@ -58,8 +63,26 @@ public class ProductController {
 
     @PreAuthorize("hasAuthority('ROLE_SELLER')")
     @PatchMapping("/{productId}")
-    public ResponseEntity<PatchProductResponse> patchProduct(@RequestBody @Valid PatchProductRequest request, @PathVariable UUID productId){
+    public ResponseEntity<PatchProductResponse> patchProduct(@RequestBody @Valid PatchProductRequest request, @PathVariable UUID productId) {
         PatchProductResponse response = productService.patchProduct(request, productId);
         return ResponseEntity.ok(response);
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_SELLER')")
+    @PatchMapping("/{productId}/image")
+    public ResponseEntity<PatchProductResponse> patchProductImageUpload(@PathVariable UUID productId, @RequestParam("file") MultipartFile file) {
+        PatchProductResponse response = productService.patchProductImageUpload(productId, file);
+        return ResponseEntity.ok(response);
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_SELLER')")
+    @GetMapping("/{productId}/image")
+    public ResponseEntity<FileSystemResource> getProductImage(@PathVariable UUID productId) {
+        FileSystemResource resource = productService.getProductImage(productId);
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);
     }
 }

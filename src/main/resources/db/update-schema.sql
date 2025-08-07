@@ -1,3 +1,9 @@
+DROP TABLE product_schema.product;
+DROP TABLE user_details."user";
+
+DROP SCHEMA user_details;
+DROP SCHEMA product_schema;
+
 CREATE SCHEMA user_details;
 
 CREATE TABLE user_details."user"
@@ -30,15 +36,9 @@ CREATE TABLE product_schema.product
     withdrew_at_date        TIMESTAMP WITHOUT TIME ZONE,
     published_status        BOOLEAN         NOT NULL,
     sold_number             INTEGER         NOT NULL,
+    filename                VARCHAR(255),
     CONSTRAINT pk_product PRIMARY KEY (product_id)
 );
 
 ALTER TABLE product_schema.product
     ADD CONSTRAINT FK_PRODUCT_ON_SELLER_USER FOREIGN KEY (seller_user_id) REFERENCES user_details."user" (user_id);
-
-DROP TABLE product_schema.product;
-DROP TABLE user_details."user";
-
-DROP SCHEMA user_details;
-DROP SCHEMA product_schema;
-

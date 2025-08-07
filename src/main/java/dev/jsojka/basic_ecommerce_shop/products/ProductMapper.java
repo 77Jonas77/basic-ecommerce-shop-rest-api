@@ -17,7 +17,8 @@ public class ProductMapper {
                 entity.getPublishedAtDate(),
                 entity.getWithdrewAtDate(),
                 entity.isPublishedStatus(),
-                entity.getSoldNumber()
+                entity.getSoldNumber(),
+                entity.getFilename()
         );
     }
 
@@ -34,7 +35,8 @@ public class ProductMapper {
                 product.getPublishedAtDate(),
                 product.getWithdrewAtDate(),
                 product.isPublishedStatus(),
-                product.getSoldNumber()
+                product.getSoldNumber(),
+                product.getFilename()
         );
     }
 }

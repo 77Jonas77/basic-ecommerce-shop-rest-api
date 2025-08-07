@@ -2,7 +2,6 @@ package dev.jsojka.basic_ecommerce_shop.products;
 
 import dev.jsojka.basic_ecommerce_shop.users.User;
 import dev.jsojka.basic_ecommerce_shop.users.UserEntity;
-import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
@@ -46,6 +45,8 @@ public class Product {
     @NotNull
     private int soldNumber;
 
+    private String filename;
+
     public Product() {
     }
 
@@ -83,7 +84,7 @@ public class Product {
 
     public Product(UUID id, String name, BigDecimal price, String description, String brandName, int availableQuantityLeft,
                    ProductCategory productCategory, UserEntity seller, LocalDateTime publishedAtDate,
-                   LocalDateTime withdrewAtDate, boolean publishedStatus, int soldNumber) {
+                   LocalDateTime withdrewAtDate, boolean publishedStatus, int soldNumber, String filePath) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -102,6 +103,7 @@ public class Product {
         this.withdrewAtDate = withdrewAtDate;
         this.publishedStatus = publishedStatus;
         this.soldNumber = soldNumber;
+        this.filename = filePath;
     }
 
 
@@ -199,5 +201,13 @@ public class Product {
 
     public void setSoldNumber(int soldNumber) {
         this.soldNumber = soldNumber;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 }

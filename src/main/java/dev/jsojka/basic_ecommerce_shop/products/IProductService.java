@@ -1,6 +1,8 @@
 package dev.jsojka.basic_ecommerce_shop.products;
 
 import jakarta.validation.Valid;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
@@ -17,4 +19,8 @@ public interface IProductService {
                                                                             Boolean publishedStatus, String sort);
 
     PatchProductResponse patchProduct(@Valid PatchProductRequest request, UUID productId);
+
+    PatchProductResponse patchProductImageUpload(UUID productId, MultipartFile file);
+
+    FileSystemResource getProductImage(UUID productId);
 }

@@ -52,13 +52,16 @@ public class ProductEntity {
     @Column(name = "sold_number", nullable = false)
     private int soldNumber;
 
+    @Column(name = "filename", nullable = true)
+    private String filename;
+
     public ProductEntity() {
     }
 
     public ProductEntity(UUID id, String name, BigDecimal price, String description, String brandName,
                          int availableQuantityLeft, ProductCategory productCategory, UserEntity seller,
                          LocalDateTime publishedAtDate, LocalDateTime withdrewAtDate,
-                         boolean publishedStatus, int soldNumber) {
+                         boolean publishedStatus, int soldNumber, String filename) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -71,6 +74,7 @@ public class ProductEntity {
         this.withdrewAtDate = withdrewAtDate;
         this.publishedStatus = publishedStatus;
         this.soldNumber = soldNumber;
+        this.filename = filename;
     }
 
     public UUID getId() {
@@ -167,5 +171,13 @@ public class ProductEntity {
 
     public void setSoldNumber(int soldNumber) {
         this.soldNumber = soldNumber;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filePath) {
+        this.filename = filePath;
     }
 }

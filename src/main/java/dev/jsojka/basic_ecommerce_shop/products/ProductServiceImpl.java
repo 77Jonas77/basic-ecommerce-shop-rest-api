@@ -3,25 +3,30 @@ package dev.jsojka.basic_ecommerce_shop.products;
 import dev.jsojka.basic_ecommerce_shop.users.IUserRepository;
 import dev.jsojka.basic_ecommerce_shop.users.User;
 import dev.jsojka.basic_ecommerce_shop.users.UserNotFoundException;
-import org.apache.coyote.BadRequestException;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
 public class ProductServiceImpl implements IProductService {
+
     private final IProductRepository productRepository;
     private final IUserRepository userRepository;
+    private final IProductFileSystemRepository fileSystemRepository;
 
-    public ProductServiceImpl(IProductRepository productRepository, IUserRepository userRepository) {
+    public ProductServiceImpl(IProductRepository productRepository, IUserRepository userRepository, IProductFileSystemRepository fileSystemRepository) {
         this.productRepository = productRepository;
         this.userRepository = userRepository;
+        this.fileSystemRepository = fileSystemRepository;
     }
 
     @Override
@@ -163,8 +168,47 @@ public class ProductServiceImpl implements IProductService {
                 savedProduct.getPublishedAtDate(),
                 savedProduct.getWithdrewAtDate(),
                 savedProduct.isPublishedStatus(),
-                savedProduct.getSoldNumber()
+                savedProduct.getSoldNumber(),
+                savedProduct.getFilename()
         );
+    }
+
+    @Override
+    @Transactional
+    public PatchProductResponse patchProductImageUpload(UUID productId, MultipartFile file) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ProductNotFoundException("Product with id:" + productId + " not found."));
+        String filename = fileSystemRepository.saveProductFile(file);
+
+        product.setFilename(filename);
+        Product savedProduct = productRepository.save(product);
+
+        return new PatchProductResponse(
+                savedProduct.getId(),
+                savedProduct.getName(),
+                savedProduct.getPrice(),
+                savedProduct.getDescription(),
+                savedProduct.getBrandName(),
+                savedProduct.getAvailableQuantityLeft(),
+                savedProduct.getProductCategory(),
+                savedProduct.getSeller().getId(),
+                savedProduct.getPublishedAtDate(),
+                savedProduct.getWithdrewAtDate(),
+                savedProduct.isPublishedStatus(),
+                savedProduct.getSoldNumber(),
+                savedProduct.getFilename()
+        );
+    }
+
+    @Override
+    public FileSystemResource getProductImage(UUID productId) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ProductNotFoundException("Product with id:" + productId + " not found."));
+        try {
+            return fileSystemRepository.findUploadedFileByFilename(product.getFilename());
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private GetAllProductsCustomedResponse getGetAllProductsCustomedResponse(Page<Product> productsPage) {
