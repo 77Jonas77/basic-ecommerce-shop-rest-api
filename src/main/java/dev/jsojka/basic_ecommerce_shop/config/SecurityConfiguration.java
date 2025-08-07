@@ -1,5 +1,6 @@
 package dev.jsojka.basic_ecommerce_shop.config;
 
+import dev.jsojka.basic_ecommerce_shop.auth.RateLimiterFilter;
 import dev.jsojka.basic_ecommerce_shop.users.UserDetailsServiceImpl;
 import dev.jsojka.basic_ecommerce_shop.logging.SessionDebugFilter;
 import dev.jsojka.basic_ecommerce_shop.users.IUserRepository;
@@ -61,6 +62,7 @@ public class SecurityConfiguration {
                                         .deleteCookies("JSESSIONID")
                                         .clearAuthentication(true)
                 )
+                .addFilterBefore(new RateLimiterFilter(), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
