@@ -32,6 +32,9 @@ public class User implements UserDetails {
     @NotNull
     private Role role;
 
+    public User() {
+    }
+
     public User(UUID id, String name, String lastName, String email, String password, Role role) {
         this.id = id;
         this.name = name;

@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "product", schema = "product_schema")
+@Table(name = "product")
 public class ProductEntity {
 
     @Id

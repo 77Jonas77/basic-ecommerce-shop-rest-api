@@ -1,12 +1,7 @@
-DROP TABLE product_schema.product;
-DROP TABLE user_details."user";
+DROP TABLE product;
+DROP TABLE app_user;
 
-DROP SCHEMA user_details;
-DROP SCHEMA product_schema;
-
-CREATE SCHEMA user_details;
-
-CREATE TABLE user_details."user"
+CREATE TABLE app_user
 (
     user_id   UUID         NOT NULL,
     name      VARCHAR(255) NOT NULL,
@@ -17,12 +12,10 @@ CREATE TABLE user_details."user"
     CONSTRAINT pk_user PRIMARY KEY (user_id)
 );
 
-ALTER TABLE user_details."user"
+ALTER TABLE app_user
     ADD CONSTRAINT uc_user_email UNIQUE (email);
 
-CREATE SCHEMA product_schema;
-
-CREATE TABLE product_schema.product
+CREATE TABLE product
 (
     product_id              UUID            NOT NULL,
     name                    VARCHAR(255)    NOT NULL,
@@ -40,5 +33,5 @@ CREATE TABLE product_schema.product
     CONSTRAINT pk_product PRIMARY KEY (product_id)
 );
 
-ALTER TABLE product_schema.product
-    ADD CONSTRAINT FK_PRODUCT_ON_SELLER_USER FOREIGN KEY (seller_user_id) REFERENCES user_details."user" (user_id);
+ALTER TABLE product
+    ADD CONSTRAINT FK_PRODUCT_ON_SELLER_USER FOREIGN KEY (seller_user_id) REFERENCES app_user (user_id);

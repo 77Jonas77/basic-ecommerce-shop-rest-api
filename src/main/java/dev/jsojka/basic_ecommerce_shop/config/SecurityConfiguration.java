@@ -7,6 +7,7 @@ import dev.jsojka.basic_ecommerce_shop.users.IUserRepository;
 import dev.jsojka.basic_ecommerce_shop.users.IUserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,6 +31,7 @@ import org.springframework.security.web.context.SecurityContextRepository;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+@Profile(value = {"dev", "prod"})
 public class SecurityConfiguration {
 
     @Bean

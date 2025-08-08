@@ -37,15 +37,12 @@ public class AuthServiceImpl implements IAuthService {
         if (!passwordEncoder.matches(loginRequest.password(), userDetails.getPassword())) {
             throw new InvalidPasswordException("Provided invalid password.");
         }
-        // Create user Authentication
         UsernamePasswordAuthenticationToken token =
                 new UsernamePasswordAuthenticationToken(userDetails, loginRequest.password(), userDetails.getAuthorities());
         Authentication authentication = authenticationManager.authenticate(token);
 
-        // Provide Authentication to SecurityContext
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        // Save security context in HTTP session
         request.getSession(true).setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
                 SecurityContextHolder.getContext());
     }
