@@ -62,13 +62,14 @@ class AuthControllerTest {
         );
 
         LoginRequestDTO loginRequestDTO = new LoginRequestDTO(exampleUser.getUsername(), exampleUser.getPassword());
+        String requestJson = objectMapper.writeValueAsString(loginRequestDTO);
 
         when(userDetailsService.loadUserByUsername(exampleUser.getUsername())).thenReturn(exampleUser);
         doNothing().when(authService).login(Mockito.any(), Mockito.any(), Mockito.any());
 
         ResultActions response = mockMvc.perform(post("/v1/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(String.valueOf(loginRequestDTO)))
+                        .content(requestJson))
                 .andExpect(status().isOk());
 
         HttpSession session = response.andReturn().getRequest().getSession(false);
