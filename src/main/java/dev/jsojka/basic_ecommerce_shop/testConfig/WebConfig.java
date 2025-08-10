@@ -1,4 +1,4 @@
-package dev.jsojka.basic_ecommerce_shop.config;
+package dev.jsojka.basic_ecommerce_shop.testConfig;
 
 import dev.jsojka.basic_ecommerce_shop.products.StringToProductCategoryConverter;
 import dev.jsojka.basic_ecommerce_shop.users.StringToRoleEnumConverter;
