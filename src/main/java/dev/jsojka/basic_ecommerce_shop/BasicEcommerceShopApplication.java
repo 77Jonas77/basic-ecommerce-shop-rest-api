@@ -8,6 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.UUID;
@@ -15,7 +16,7 @@ import java.util.UUID;
 import static dev.jsojka.basic_ecommerce_shop.users.Role.*;
 
 //@SpringBootApplication
-@SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
+@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 public class BasicEcommerceShopApplication {
 
     public static void main(String[] args) {
@@ -23,10 +24,11 @@ public class BasicEcommerceShopApplication {
     }
 
     @Bean
+    @Profile("!test")
     public CommandLineRunner initDatabase(
             IUserRepository userRepository, PasswordEncoder passwordEncoder
     ) {
-        return _ -> {
+        return args -> {
             if (!userRepository.existsByEmail("admin@gmail.com")) {
                 User user = new User(UUID.randomUUID(), "admin", "admin", "admin@gmail.com", passwordEncoder.encode("admin123"), ADMIN);
                 userRepository.save(user);

@@ -2,6 +2,9 @@ package dev.jsojka.basic_ecommerce_shop.exceptions;
 
 import dev.jsojka.basic_ecommerce_shop.auth.BadCredentialsException;
 import dev.jsojka.basic_ecommerce_shop.auth.InvalidPasswordException;
+import dev.jsojka.basic_ecommerce_shop.products.ProductNotFoundException;
+import dev.jsojka.basic_ecommerce_shop.products.WithdrewDateInvalidException;
+import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -25,12 +28,26 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(BadCredentialsException.class)
     ResponseEntity<Object> handleBadCredentialsException(BadCredentialsException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(InvalidPasswordException.class)
     ResponseEntity<Object> handleInvalidPasswordException(UserNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ConversionFailedException.class)
+    ResponseEntity<Object> handleConversionFailedException(UserNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    ResponseEntity<Object> handleProductNotFoundException(ProductNotFoundException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(WithdrewDateInvalidException.class)
+    ResponseEntity<Object> handleWithdrewDateInvalidException(WithdrewDateInvalidException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 }

@@ -1,4 +1,4 @@
-package dev.jsojka.basic_ecommerce_shop.CustomTests;
+package dev.jsojka.basic_ecommerce_shop.customTests;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
