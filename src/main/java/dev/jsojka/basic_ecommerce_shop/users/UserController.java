@@ -56,7 +56,7 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<GetUserResponse> registerUser(@PathVariable UUID userId) {
+    public ResponseEntity<GetUserResponse> getUserById(@PathVariable UUID userId) {
         GetUserResponse response = userService.findUserById(userId);
         return ResponseEntity.ok(response);
     }
