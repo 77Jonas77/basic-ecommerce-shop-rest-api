@@ -1,71 +1,90 @@
 ## 🛒 E-commerce Order Management API
 
-**Technologie:** Spring Boot, PostgreSQL, JWT, REST API, JPA/Hibernate
+**Technologies:** Spring Boot, PostgreSQL, JWT, REST API, JPA/Hibernate
 
-### 🎯 Cel projektu
+### 🎯 Project Goal
 
-Celem projektu jest stworzenie prostego, ale funkcjonalnego API do zarządzania zamówieniami w sklepie e-commerce. Projekt ma na celu rozwój umiejętności backendowych, w szczególności w zakresie modelowania danych, uwierzytelniania użytkowników oraz implementacji operacji CRUD.
+The aim of this project is to create a simple yet functional API for managing orders in an e-commerce store.
+It focuses on developing backend skills, particularly in data modeling, user authentication, and implementing CRUD operations.
 
-### 🔐 Uwierzytelnianie
+---
 
-- Użytkownik może zarejestrować się, zalogować, wylogować z systemu.
-- Autoryzacja z rolami: Administrator, Sprzedawca, Kupujący
-- System generuje token Session ID, który będzie wykorzystywany do uwierzytelnienia oraz autoryzacji dostępu do chronionych zasobów.
-- Podstawowa konfiguracja Spring Security, w której zaimplementowany został własny UserDetailsService w związku z wykorzystaniem UsernamePasswordAuthenticationToken służący do autentykacji użytkownika.
+### 🔐 Authentication & Authorization
 
-### 📦 Funkcjonalności API
+* Users can **register**, **log in**, and **log out** of the system.
+* Role-based authorization: **Administrator**, **Seller**, **Customer**.
+* The system generates a **Session ID token** used for authentication and authorization to access protected resources.
+* Basic Spring Security configuration with a **custom `UserDetailsService`** and
+  `UsernamePasswordAuthenticationToken` for user authentication.
 
-Use case'y:
+---
 
-- Rejestrowanie, logowanie, wylogowanie użytkownika.
-- Endpoint GET na pobranie wszystkich produktów z wykorzystniem interfejsu Pageable z możliwym posortowaniem.
-- (POST) Dodanie/ utworzenie produktu
-- (DELETE) Usunięcie produktu
-- Aktualizacja produktu (PATCH)
-- Pobranie oraz wczytanie pliku z wykorzystniem interfejsu MultipartFile
-- Pobranie użytkownika z wykorzystniem ID
-- Aktualizacja roli użytkownika
+### 📦 API Features
 
-Inne:
+**Use Cases:**
 
-- Custom Rate Limiter zrealizowany za pomocą OncePerRequestFilter
-- Exception handler zrealizowany za pomocą globalnego @ControllerAdvice
-- SessionDebugFilter, który służy do debugowania / rejestrowania informacji przychodzącego request'a.
-- Mappery, konwertery dla enumów.
+* User registration, login, and logout.
+* **GET** endpoint to fetch all products using `Pageable` with optional sorting.
+* **POST** – Create a new product.
+* **DELETE** – Remove a product.
+* **PATCH** – Update a product.
+* Upload and download files using `MultipartFile`.
+* Retrieve user details by **ID**.
+* Update a user’s role.
 
-### Mniej znaczące decyzje
+**Additional Features:**
 
-- Architektura struktury katalogów naśladująca konwencję _Screaming architecture_
-- Staranność utrzymania dobrych technik programistycznych (kierowałem się natomiast raczej "dowiezieniem i działaniem" niż dążenie do idealnego kodu):
-  - YAGNI
-  - KISS
-  - SOLID
-  - DRY
-- API versioning
+* **Custom Rate Limiter** implemented via `OncePerRequestFilter`.
+* **Global Exception Handler** using `@ControllerAdvice`.
+* **SessionDebugFilter** for logging and debugging incoming requests.
+* Mappers and converters for enums.
 
-### 🧱 Technologie i biblioteki
+---
 
-- Spring Boot (Java)
-- PostgreSQL
-- Docker
-- Spring Data JPA
-- Spring Security
-- JUnit 5, Mockito, Testcontainers do testów jednostkowych oraz integracyjnych
+### 🧱 Technologies & Libraries
 
-### Roadmapa
+* **Spring Boot** (Java)
+* **PostgreSQL**
+* **Docker**
+* **Spring Data JPA**
+* **Spring Security**
+* **JUnit 5**, **Mockito**, **Testcontainers** for unit and integration testing
 
-Sugerowałem się: 
+---
+
+### 🗂 Architectural Notes
+
+* Package structure inspired by **Screaming Architecture** principles.
+* Applied programming principles:
+
+  * **YAGNI** – You Aren’t Gonna Need It
+  * **KISS** – Keep It Simple, Stupid
+  * **SOLID** principles
+  * **DRY** – Don’t Repeat Yourself
+* API versioning implemented.
+
+---
+
+### 📅 Roadmap
+
+The project’s structure and development path were partially inspired by:
 
 <img width="1404" height="929" alt="SPRING BOOT ROADMAP" src="https://github.com/user-attachments/assets/46e04785-a0e8-4430-a714-3f8282646b96" />
 
-### Co można było zrobić lepiej? - dalszy potencjalny rozwój
+---
 
-Celem tego projektu było poznanie nowych dla mnie możliwości frameworku jakim jest spring boot oraz utrwaleniem podstaw jego działania oraz wstępna praca z PostgreSQL. Elementów do poprawy na pewno jest więcej natomiast moim zdaniem najważniejsze:
+### 🚀 Possible Improvements & Future Development
 
-- Pobieżna analiza biznesowa realizowanego problemu - pewne konstrukcje, rozwiązania są bardzo uproszczone i nie rozwiązują realnego problemu biznesowego.
-- Przechowywanie sesji - jako dalszy rozwój, np. za pomocą Redis.
-- Rate Limiter/ Throtling z wykorzystniem algorytmu kubełkowego, np. Bucket4j
-- Integracja z API do płatności.
-- Zwiększenie security, np. poprzez wykorzystanie JWT (dyskusyjne).
-- Architektura rozwiązania - zapewne, natomiast jest to obszar wiedzy, który jeszcze muszę zgłębić, aby podejmować odpowiednie decyzje.
-- Testy - zdecydowanie można poprawić sposób realizowania testów - na ten moment są to basic testy, które służyły mi za przykłady w celu zrozumienia koncepcji stojącej za tym obszarem.
+The primary goal of this project was to explore new Spring Boot features,
+strengthen my understanding of its core functionality, and gain initial experience with PostgreSQL.
+While the project is functional, it can be improved in several areas:
+
+* **Business analysis** – Some solutions are oversimplified and may not address real-world business needs.
+* **Session storage** – Implement Redis for distributed session management.
+* **Rate limiting** – Use a token bucket algorithm (e.g., **Bucket4j**).
+* **Payment integration** – Add integration with a payment gateway API.
+* **Security enhancements** – Consider switching to **JWT** (discussion-worthy).
+* **Architecture improvements** – Explore better architectural patterns and make more informed design decisions.
+* **Testing** – Improve test quality; current tests are basic examples intended for concept learning.
+
+---
