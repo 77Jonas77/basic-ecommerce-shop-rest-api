@@ -77,9 +77,8 @@ The project’s structure and development path were partially inspired by:
 
 ### 🚀 Possible Improvements & Future Development
 
-The primary goal of this project was to explore new Spring Boot features,
-strengthen my understanding of its core functionality, and gain initial experience with PostgreSQL.
-While the project is functional, it can be improved in several areas:
+The primary goal of this project was to explore new Spring Boot features, strengthen my understanding of its core functionality, and gain initial experience with PostgreSQL. Therefore, I did not focus on its practical utility or solving specific business problems.
+While the project is not completely functional, I am aware of its limitations and eager to discuss them. It can be improved in several areas e.g. :
 
 * **Business analysis** – Some solutions are oversimplified and may not address real-world business needs.
 * **Session storage** – Implement Redis for distributed session management.
