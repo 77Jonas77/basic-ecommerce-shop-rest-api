@@ -69,7 +69,7 @@ It focuses on developing backend skills, particularly in data modeling, user aut
 
 ### 📅 Roadmap
 
-The project’s structure and development path were partially inspired by:
+The project’s structure and development path were partially inspired by (finished on DevOps including):
 
 <img width="1404" height="929" alt="SPRING BOOT ROADMAP" src="https://github.com/user-attachments/assets/46e04785-a0e8-4430-a714-3f8282646b96" />
 
