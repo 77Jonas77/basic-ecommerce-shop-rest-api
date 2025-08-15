@@ -37,7 +37,8 @@ It focuses on developing backend skills, particularly in data modeling, user aut
 * **Custom Rate Limiter** implemented via `OncePerRequestFilter`.
 * **Global Exception Handler** using `@ControllerAdvice`.
 * **SessionDebugFilter** for logging and debugging incoming requests.
-* Mappers and converters for enums.
+* **Mappers and converters for enums.**
+* **Use of Java Virtual Threads**
 
 ---
 
@@ -49,6 +50,7 @@ It focuses on developing backend skills, particularly in data modeling, user aut
 * **Spring Data JPA**
 * **Spring Security**
 * **JUnit 5**, **Mockito**, **Testcontainers** for unit and integration testing
+* **Spring boot Actuator with Prometheus**
 
 ---
 
@@ -86,5 +88,6 @@ While the project is functional, it can be improved in several areas:
 * **Security enhancements** – Consider switching to **JWT** (discussion-worthy).
 * **Architecture improvements** – Explore better architectural patterns and make more informed design decisions.
 * **Testing** – Improve test quality; current tests are basic examples intended for concept learning.
+* **Integration with External API (such as Stripe/ PayPal) using e.g. WebClient/ RestClient**
 
 ---
