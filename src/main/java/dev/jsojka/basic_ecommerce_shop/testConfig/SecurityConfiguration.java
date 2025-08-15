@@ -48,8 +48,10 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> {
                     auth
                             .requestMatchers("/v1/auth/login", "/v1/users/register",
-                                    "/v1/auth/logout", "/v1/auth/success-logout-url")
+                                    "/v1/auth/logout", "/v1/auth/success-logout-url", "/actuator/**")
                             .permitAll()
+//                            .requestMatchers("/actuator/**")
+//                            .hasRole("ADMIN")
                             .anyRequest().authenticated();
                 })
                 .formLogin(AbstractHttpConfigurer::disable)
