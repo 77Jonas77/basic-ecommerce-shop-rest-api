@@ -50,7 +50,7 @@ It focuses on developing backend skills, particularly in data modeling, user aut
 * **Spring Data JPA**
 * **Spring Security**
 * **JUnit 5**, **Mockito**, **Testcontainers** for unit and integration testing
-* **Spring boot Actuator with Prometheus**
+* **Spring boot Actuator with Prometheus** (utilizing Observability - Metrics, Trace, Logging - not all of them :) )
 
 ---
 
